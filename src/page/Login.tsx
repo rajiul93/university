@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Button } from "antd";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import PHForm from "../component/form/PHForm";
+import PHInput from "../component/form/PHInput";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { setUser, TUserToken } from "../redux/features/auth/authSlice";
 import { useAppDispatch } from "../redux/features/hooks";
@@ -13,25 +14,35 @@ type Inputs = {
     id: string
     password: string
 }
-
+const style = {
+    height: "100vh",
+    backgroundImage: "url('https://png.pngtree.com/background/20250109/original/pngtree-modern-university-campus-seen-from-above-with-beautiful-green-spaces-contemporary-picture-image_16091603.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+}
 
 const Login = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const [login] = useLoginMutation()
 
-    const {
-        register,
-        handleSubmit
-    } = useForm<Inputs>({
-        defaultValues: {
-            id: "A-0001",
-            password: "admin1234"
-        }
-    })
-
+    // const {
+    //     register,
+    //     handleSubmit
+    // } = useForm<Inputs>({
+    //     defaultValues: {
+    //         id: "A-0001",
+    //         password: "admin1234"
+    //     }
+    // })
+    const defaultValues = {
+        id: "A-0001",
+        password: "admin1234"
+    }
     const onSubmit: SubmitHandler<Inputs> = async (data: FieldValues) => {
         const tostID = toast.loading("Logging in")
+        console.log(data);
         try {
             const result = await login(data).unwrap()
             const user = verifyToken(result.data.accessToken) as TUserToken
@@ -44,17 +55,13 @@ const Login = () => {
     }
 
     return (
-        <PHForm onSubmit={onSubmit}>
-            <div>
-                <label htmlFor="id">ID:</label>
-                <input type="text" id="id"  {...register("id")} />
-            </div>
-            <div>
-                <label htmlFor="password">Password:</label>
-                <input type="text" id="password"{...register("password")} />
-            </div>
-            <Button htmlType="submit">Login</Button>
-        </PHForm>
+        <Row justify="center" align="middle" style={style}>
+            <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+                <PHInput name="id" type="text" label="ID" />
+                <PHInput name="password" type="text" label="Password" />
+                <Button htmlType="submit">Login</Button>
+            </PHForm>
+        </Row>
     );
 };
 
