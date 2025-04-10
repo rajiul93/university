@@ -8,7 +8,8 @@ import PHForm from "../../../component/form/PHForm";
 import PHSelect from "../../../component/form/PHSelect";
 import { useAddAcademicSemesterMutation } from "../../../redux/features/admin/academicManagement.api";
 import { academicSemesterSchema } from "../../../schema/academicManagement.schema";
-import { TResponse } from "../../../type/global";
+import { TResponse } from "../../../type";
+import { TAcademicSemester } from "../../../type/academicManagement.type";
 
 const CreateAcademicSemester = () => {
 
@@ -24,19 +25,23 @@ const CreateAcademicSemester = () => {
             endMonth: data.endMonth,
         }
         try {
-            const res = await addAcademicSemester(semesterData) as TResponse
-            if (res.error.data.message) {
+            const res = await addAcademicSemester(semesterData) as TResponse<TAcademicSemester> 
+            if (res?.error?.data?.message) {
                 toast.error("Semester is already exist", { id: tostId })
             } else {
                 toast.success("Semester create successfully", { id: tostId })
             }
         } catch (error) {
-            toast.error("something went wrong", { id: tostId })
+           
+                console.log("error:", error);
+
+                toast.error("Something went wrong", { id: tostId });
+             
         }
     }
 
     const currentYear = new Date().getFullYear()
-    const yearOption = [0, 2, 3, 4, 5].map(number => (
+    const yearOption = [0,1, 2, 3, 4, 5].map(number => (
         {
             value: String(currentYear + number),
             label: String(currentYear + number)

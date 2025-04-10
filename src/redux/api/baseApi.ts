@@ -7,15 +7,14 @@ import {
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
 import { toast } from "sonner";
-import { TResponse } from "../../type/global";
 import { logOut, setUser } from "../features/auth/authSlice";
 import { RootState } from "./../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: `${import.meta.env.VITE_URL}/api/v1`,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    const token = (getState() as RootState).auth.token; 
     headers.set("Content-Type", "application/json");
     if (token) {
       headers.set("Authorization", token);
@@ -29,7 +28,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   BaseQueryApi,
   DefinitionType
 > = async (args, api, extraOptions): Promise<any> => {
-  let result = (await baseQuery(args, api, extraOptions)) as TResponse;
+  let result = await baseQuery(args, api, extraOptions); 
   if (result.error?.status === 403 || result.error?.status === 404) {
     return toast.error(result?.error?.data?.message);
   }
@@ -38,7 +37,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     // Attempt to refresh the token
     try {
       const res = await fetch(
-        "http://localhost:5000/api/v1/auth/refresh-token",
+        `${import.meta.env.VITE_URL}/api/v1/auth/refresh-token`,
         {
           method: "POST",
           credentials: "include",
@@ -54,7 +53,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             token: data.data.accessToken,
           })
         );
-        result = await baseQuery(args, api, extraOptions) as TResponse;
+        result = await baseQuery(args, api, extraOptions);
       } else {
         api.dispatch(logOut());
       }
