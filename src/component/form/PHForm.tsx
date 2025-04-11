@@ -13,7 +13,7 @@ type TFormProps = {
     children: ReactNode;
 } & TFormConfig;
 
-const PHForm = ({ onSubmit, children, defaultValues, resolver }: TFormProps) => {
+const PHForm = ({ onSubmit, children, defaultValues, resolver}: TFormProps) => {
 
     let formConfig: TFormConfig = {}
 
