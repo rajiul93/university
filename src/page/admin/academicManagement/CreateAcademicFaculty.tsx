@@ -7,7 +7,7 @@ import PHInput from "../../../component/form/PHInput";
 import { useAddFacultyMutation } from "../../../redux/features/admin/facultyManagement.api";
 import { academicFacultyManagement } from "../../../schema/academicFacultyManagement.schema";
 import { TResponse } from "../../../type";
-import { AcademicFacultyResponse } from "../../../type/facultyManagement.type";
+import { AcademicFacultyResponse } from "../../../type/academicFacultyManagement.type";
 
 const CreateAcademicFaculty = () => {
     const [addFaculty] = useAddFacultyMutation();

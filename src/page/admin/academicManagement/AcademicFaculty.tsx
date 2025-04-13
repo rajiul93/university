@@ -2,7 +2,7 @@ import { Button, Table, TableColumnsType, TableProps } from "antd";
 import { useState } from "react";
 import { useGetAllAcademicFacultyQuery } from "../../../redux/features/admin/facultyManagement.api";
 import { TQueryParams } from "../../../type";
-import { AcademicFacultyResponse } from "../../../type/facultyManagement.type";
+import { AcademicFacultyResponse } from "../../../type/academicFacultyManagement.type";
  
 
 type TTableData =  Pick<AcademicFacultyResponse , "name"  >
