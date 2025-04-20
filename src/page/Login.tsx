@@ -27,15 +27,6 @@ const Login = () => {
     const navigate = useNavigate()
     const [login] = useLoginMutation()
 
-    // const {
-    //     register,
-    //     handleSubmit
-    // } = useForm<Inputs>({
-    //     defaultValues: {
-    //         id: "A-0001",
-    //         password: "admin1234"
-    //     }
-    // })
     const defaultValues = {
         id: "A-0001",
         password: "admin1234"
@@ -56,6 +47,7 @@ const Login = () => {
 
     return (
         <Row justify="center" align="middle" style={style}>
+            <h1 style={{font:"30px"}}>Rajul</h1>
             <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
                 <PHInput name="id" type="text" label="ID" />
                 <PHInput name="password" type="text" label="Password" />
